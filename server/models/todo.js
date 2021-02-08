@@ -19,7 +19,7 @@ Todo.init({
     type: DataTypes.STRING,
     validate: {
       notEmpty: {
-        msg: 'tittle is required'
+        msg: 'Tittle is required'
       }
     }
   },

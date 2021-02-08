@@ -105,7 +105,13 @@ function logIn() {
       checkAuth()
     })
     .fail( err => {
-      console.log(err)
+      let errors = err.responseJSON.message
+      Swal.fire(
+        'Opps!',
+        `${errors} !`,
+        'error'
+      )
+      checkAuth()
     })
     .always( () => {
       $(`#login-email`).val('')
@@ -128,11 +134,21 @@ function register() {
     }
   })
     .done( response => {
-      showFormLogin()
+      Swal.fire(
+        'Register',
+        'Registration is successfull',
+        'success'
+      )
+      showFormLogin(),
       checkAuth()
     })
     .fail( err => {
-      console.log(err)
+      let errMessage = err.responseJSON.message.map(el =>  {return ` ${el}`})
+        Swal.fire({
+            title: 'Error!',
+            text: errMessage,
+            icon: 'error',
+        })
     })
     .always( () => {
       $(`#regis-email`).val('')
@@ -167,8 +183,7 @@ function addTodo() {
       checkAuth()
     })
     .fail(err => {
-      let errMessage = err.responseJSON.message.split("Validation error:").join("\n")
-      console.log(errMessage);
+      let errMessage = err.responseJSON.message.map(el =>  {return ` ${el}`})
         Swal.fire({
             title: 'Error!',
             text: errMessage,
@@ -232,7 +247,12 @@ function fetchTodo() {
       })
     })
     .fail( err => {
-      console.log(err);
+      Swal.fire(
+        'Opps!',
+        'Something went wrong !',
+        'error'
+      )
+      checkAuth()
     })
     .always( () => {
     })
@@ -279,7 +299,12 @@ function PageUpdateTodo(id) {
         )
       })
     .fail (err => {
-      console.log(err);
+      Swal.fire(
+        'Opps!',
+        'Something went wrong !',
+        'error'
+      )
+      checkAuth()
     })
 }
 
@@ -316,7 +341,12 @@ function updateTodo(id){
       })
     })
     .fail( err => {
-      console.log(err);
+      let errMessage = err.responseJSON.message.map(el =>  {return ` ${el}`})
+        Swal.fire({
+            title: 'Error!',
+            text: errMessage,
+            icon: 'error',
+        })
     })
     .always( () => {
     })
@@ -330,28 +360,21 @@ function DeleteTodo(id) {
       access_token: localStorage.access_token
       }
   })
-    .done( (response) => {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
-          checkAuth()
-        }
+  .done( (response) => {
+      Swal.fire(
+          'Deleted!',
+          'Your todo has been deleted.',
+          'success'
+        )
+        checkAuth()
       })
-    })
     .fail( err => {
-      console.log(err);
+      Swal.fire(
+        'Opps!',
+        'Something went wrong !',
+        'error'
+      )
+      checkAuth()
     })
     .always( () => {
     })
@@ -371,7 +394,11 @@ function DoneTodo(id) {
       checkAuth()
     })
     .fail( err => {
-      console.log(err);
+      Swal.fire(
+        'Opps!',
+        'Something went wrong !',
+        'error'
+      )
     })
     .always( () => {
     })
@@ -391,7 +418,11 @@ function NotDoneTodo(id) {
       checkAuth()
     })
     .fail( err => {
-      console.log(err);
+      Swal.fire(
+        'Opps!',
+        'Something went wrong !',
+        'error'
+      )
     })
     .always( () => {
     })
@@ -462,7 +493,11 @@ function searchTitle() {
       }     
     })
     .fail( err => {
-      console.log(err);
+      Swal.fire(
+        'Opps!',
+        'Something went wrong !',
+        'error'
+      )
     })
     .always( () => {
       $(`#search-title`).val('')
